@@ -62,6 +62,13 @@ class AdminUsersController extends AdminController {
         // All roles
         $roles = $this->role->all();
 
+        // You can create super admin.
+        foreach ($roles as $key => $value) {
+           if($value->name == "admin"){
+               unset($roles[$key]);
+           }
+        }
+
         // Get all the available permissions
         $permissions = $this->permission->all();
 
@@ -98,6 +105,16 @@ class AdminUsersController extends AdminController {
         $this->user->password_confirmation = Input::get( 'password_confirmation' );
         $this->user->confirmed = Input::get( 'confirm' );
 
+
+        $this->user->date_of_joining = Input::get( 'date_of_joining' );
+        $this->user->qualification = Input::get( 'qualification' );
+        $this->user->registration_number = Input::get( 'registration_number' );
+        $this->user->telephone_number = Input::get( 'telephone_number' );
+        $this->user->photo_filepath = "file.txt";
+        $this->user->signature_filepath = "sig.txt";
+
+
+
         // Permissions are currently tied to roles. Can't do this yet.
         //$user->permissions = $user->roles()->preparePermissionsForSave(Input::get( 'permissions' ));
 
@@ -110,7 +127,7 @@ class AdminUsersController extends AdminController {
             $this->user->saveRoles(Input::get( 'roles' ));
 
             // Redirect to the new user page
-            return Redirect::to('admin/users/' . $this->user->id . '/edit')->with('success', Lang::get('admin/users/messages.create.success'));
+            return Redirect::to('admin/users' )->with('success', Lang::get('admin/users/messages.create.success'));
         }
         else
         {
@@ -145,6 +162,13 @@ class AdminUsersController extends AdminController {
         if ( $user->id )
         {
             $roles = $this->role->all();
+            // You can change the role to superadmin.
+            foreach ($roles as $key => $value) {
+               if($value->name == "super_admin"){
+                   unset($roles[$key]);
+               }
+            }
+
             $permissions = $this->permission->all();
 
             // Title
@@ -287,11 +311,11 @@ class AdminUsersController extends AdminController {
                             No
                         @endif')
 
-        ->add_column('actions', '<a href="{{{ URL::to(\'admin/users/\' . $id . \'/edit\' ) }}}" class="iframe btn btn-mini">{{{ Lang::get(\'button.edit\') }}}</a>
-                                @if($username == \'admin\')
-                                @else
-                                    <a href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="iframe btn btn-mini btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
-                                @endif
+        ->add_column('actions', '@if($username == \'admin\')
+                                 @else
+                                    <a href="{{{ URL::to(\'admin/users/\' . $id . \'/edit\' ) }}}" class=" btn btn-mini">{{{ Lang::get(\'button.edit\') }}}</a>
+                                    <a href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class=" btn btn-mini btn-danger">{{{ Lang::get(\'button.delete\') }}}</a>
+                                 @endif
             ')
 
         ->remove_column('id')

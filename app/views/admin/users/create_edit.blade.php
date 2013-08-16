@@ -1,4 +1,4 @@
-@extends('admin.layouts.modal')
+@extends('site.layouts.default')
 
 {{-- Content --}}
 @section('content')
@@ -82,7 +82,7 @@
 				<div class="control-group {{{ $errors->has('roles') ? 'error' : '' }}}">
 	                <label class="control-label" for="roles">Roles</label>
 	                <div class="controls">
-		                <select name="roles[]" id="roles[]" multiple>
+		                <select name="roles[]" id="roles[]" >
 		                        @foreach ($roles as $role)
 									@if ($mode == 'create')
 		                        		<option value="{{{ $role->id }}}"{{{ ( in_array($role->id, $selectedRoles) ? ' selected="selected"' : '') }}}>{{{ $role->name }}}</option>
@@ -92,12 +92,48 @@
 		                        @endforeach
 						</select>
 
-						<span class="help-block">
+						<!-- span class="help-block">
 							Select a group to assign to the user, remember that a user takes on the permissions of the group they are assigned.
-						</span>
+						</span-->
 	            	</div>
 				</div>
 				<!-- ./ groups -->
+				<!-- date_of_joining -->
+				<div class="control-group {{{ $errors->has('date_of_joining') ? 'error' : '' }}}">
+					<label class="control-label" for="date_of_joining">Date of Joining</label>
+					<div class="controls">
+						<input type="text" name="date_of_joining" id="date_of_joining" value="{{{ Input::old('date_of_joining', isset($user) ? $user->date_of_joining : null) }}}" />
+						{{{ $errors->first('date_of_joining', '<span class="help-inline">:message</span>') }}}
+					</div>
+				</div>
+				<!-- ./ date_of_joining -->
+				<!-- qualification -->
+				<div class="control-group {{{ $errors->has('qualification') ? 'error' : '' }}}">
+					<label class="control-label" for="qualification">Qualification</label>
+					<div class="controls">
+						<input type="text" name="qualification" id="qualification" value="{{{ Input::old('qualification', isset($user) ? $user->qualification : null) }}}" />
+						{{{ $errors->first('qualification', '<span class="help-inline">:message</span>') }}}
+					</div>
+				</div>
+				<!-- ./ qualification -->
+				<!-- registration_number -->
+				<div class="control-group {{{ $errors->has('registration_number') ? 'error' : '' }}}">
+					<label class="control-label" for="registration_number">Registration #</label>
+					<div class="controls">
+						<input type="text" name="registration_number" id="registration_number" value="{{{ Input::old('registration_number', isset($user) ? $user->registration_number : null) }}}" />
+						{{{ $errors->first('registration_number', '<span class="help-inline">:message</span>') }}}
+					</div>
+				</div>
+				<!-- ./ registration_number -->
+				<!-- telephone_number -->
+				<div class="control-group {{{ $errors->has('telephone_number') ? 'error' : '' }}}">
+					<label class="control-label" for="telephone_number">Telephone #</label>
+					<div class="controls">
+						<input type="text" name="telephone_number" id="telephone_number" value="{{{ Input::old('telephone_number', isset($user) ? $user->telephone_number : null) }}}" />
+						{{{ $errors->first('telephone_number', '<span class="help-inline">:message</span>') }}}
+					</div>
+				</div>
+				<!-- ./ telephone_number -->
 			</div>
 			<!-- ./ general tab -->
 
@@ -107,7 +143,12 @@
 		<!-- Form Actions -->
 		<div class="control-group">
 			<div class="controls">
-				<element class="btn-cancel close_popup">Cancel</element>
+
+				<div class="btn-group">
+      				<a href="{{{ URL::to('admin/users') }}}" class="btn-cancel">
+         			Cancel
+      				</a>
+    			</div>
 				<button type="reset" class="btn">Reset</button>
 				<button type="submit" class="btn btn-success">OK</button>
 			</div>

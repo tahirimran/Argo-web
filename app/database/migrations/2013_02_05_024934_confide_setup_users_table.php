@@ -20,6 +20,12 @@ class ConfideSetupUsersTable extends Migration {
             $table->string('password');
             $table->string('confirmation_code');
             $table->boolean('confirmed')->default(false);
+            $table->string('date_of_joining');
+            $table->string('qualification');
+            $table->string('registration_number');
+            $table->string('telephone_number');
+            $table->string('photo_filepath');
+            $table->string('signature_filepath');
             $table->timestamps();
         });
 
